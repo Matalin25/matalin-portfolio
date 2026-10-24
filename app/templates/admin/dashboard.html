@@ -1,0 +1,126 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<div class="admin-panel">
+
+  <header class="admin-panel__head">
+    <div>
+      <h1 class="admin-panel__title">Панель управления</h1>
+      <p class="admin-panel__subtitle">{{ site_name }} · {{ site_domain }}</p>
+    </div>
+    <div class="admin-panel__actions">
+      <a class="btn btn--small btn--ghost" href="{{ url_for('main.index') }}" target="_blank" rel="noopener">Открыть сайт</a>
+      <form method="post" action="{{ url_for('admin.logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn--small btn--ghost" type="submit">Выйти</button>
+      </form>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <p class="alert alert--{{ category }}">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- ==================== КЕЙСЫ ==================== -->
+  <section class="admin-section" id="cases">
+    <h2 class="admin-section__title">Кейсы</h2>
+    <p class="admin-section__hint">
+      Галочка «Скрыть кейс» убирает проект из публичной части сайта и его страницу
+      (/projects/&lt;slug&gt;/) отдаёт 404. Используется для работ под NDA.
+    </p>
+
+    <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th scope="col">Проект</th>
+          <th scope="col">Категория</th>
+          <th scope="col">Год</th>
+          <th scope="col">В избранном</th>
+          <th scope="col">Скрыть кейс</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <th scope="row">
+            {{ row.title }}
+            <span class="admin-table__slug">/projects/{{ row.slug }}/</span>
+          </th>
+          <td>{{ row.category }}</td>
+          <td>{{ row.year }}</td>
+          <td>{{ "да" if row.featured else "нет" }}</td>
+          <td>
+            <form method="post" action="{{ url_for('admin.toggle_case', slug=row.slug) }}" class="admin-table__form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <label class="switch">
+                <input type="checkbox" name="hidden" value="1" {% if row.hidden %}checked{% endif %} data-auto-submit>
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="visually-hidden">Скрыть кейс {{ row.title }}</span>
+              </label>
+              <noscript><button class="btn btn--small btn--ghost" type="submit">Сохранить</button></noscript>
+            </form>
+            {% if row.updated_at %}<span class="admin-table__time">изменён {{ row.updated_at }}</span>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ==================== ЗАЯВКИ ==================== -->
+  <section class="admin-section" id="messages">
+    <h2 class="admin-section__title">Заявки с сайта <span class="badge">{{ new_count }} новых</span></h2>
+
+    {% if messages %}
+    <ul class="messages">
+      {% for item in messages %}
+      <li class="message message--{{ item.status }}">
+        <div class="message__head">
+          <span class="message__name">{{ item.name }}</span>
+          <a class="message__contact" href="mailto:{{ item.contact }}">{{ item.contact }}</a>
+          <span class="message__date">{{ item.created_at }}</span>
+          <span class="badge badge--{{ item.status }}">{{ item.status }}</span>
+        </div>
+        <p class="message__text">{{ item.message }}</p>
+        <div class="message__actions">
+          <form method="post" action="{{ url_for('admin.message_status', message_id=item.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="status" value="done">
+            <button class="btn btn--small btn--ghost" type="submit">Отметить выполненной</button>
+          </form>
+          <form method="post" action="{{ url_for('admin.message_status', message_id=item.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="status" value="archived">
+            <button class="btn btn--small btn--ghost" type="submit">В архив</button>
+          </form>
+          <form method="post" action="{{ url_for('admin.message_delete', message_id=item.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn--small btn--ghost" type="submit">Удалить</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="admin-section__hint">Заявок пока нет.</p>
+    {% endif %}
+  </section>
+
+  <section class="admin-section">
+    <h2 class="admin-section__title">Доступ</h2>
+    <p class="admin-section__hint">
+      Пароль администратора задаётся переменной окружения <code>ADMIN_PASSWORD</code>.
+      Служебная страница состояния — <a href="{{ url_for('admin.show_secret') }}">здесь</a>.
+    </p>
+  </section>
+
+</div>
+{% endblock %}

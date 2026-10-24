@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка {{ code }} — {{ site_name }}{% endblock %}
+{% block description %}Произошла ошибка {{ code }}. Вернитесь на главную страницу.{% endblock %}
+
+{% block content %}
+<section class="notfound">
+  <div class="container notfound__inner">
+    <p class="notfound__code" aria-hidden="true">{{ code }}</p>
+    <h1 class="notfound__title">{{ message }}</h1>
+    <p class="notfound__text">Мы уже зафиксировали эту ошибку в журнале. Попробуйте обновить страницу или вернуться на главную.</p>
+    <div class="notfound__actions">
+      <a class="btn btn--primary" href="{{ url_for('main.index') }}">Вернуться на главную</a>
+      <a class="btn btn--ghost" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Написать в Telegram</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

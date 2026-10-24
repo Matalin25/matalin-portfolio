@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}{{ case.title }} — кейс {{ site_name }}{% endblock %}
+{% block description %}{{ case.summary }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ case.title }} — кейс{% endblock %}
+
+{% block head_extra %}
+{{ jsonld_block(case_schema) }}
+{{ jsonld_block(person_schema) }}
+{% endblock %}
+
+{% block content %}
+
+<article class="project">
+
+  <!-- ======================= HERO КЕЙСА ======================= -->
+  <section class="project-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки" data-reveal>
+        <ol>
+          <li><a href="{{ url_for('main.index') }}">Главная</a></li>
+          <li><a href="{{ url_for('main.index') }}#cases">Кейсы</a></li>
+          <li><span aria-current="page">{{ case.title }}</span></li>
+          <li><a href="{{ case.github }}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ol>
+      </nav>
+
+      <div class="project-hero__grid">
+        <div class="project-hero__content" data-reveal>
+          <p class="eyebrow">{{ case.category }} · {{ case.year }}</p>
+          <h1 class="project-hero__title">{{ case.title }}</h1>
+          <p class="project-hero__lead">{{ case.summary }}</p>
+
+          <ul class="project-hero__facts">
+            <li><span class="fact__label">Роль</span><span class="fact__value">{{ case.role }}</span></li>
+            <li><span class="fact__label">Срок</span><span class="fact__value">{{ case.duration }}</span></li>
+            <li><span class="fact__label">Стек</span><span class="fact__value">{{ case.stack | join(', ') }}</span></li>
+          </ul>
+
+          <div class="project-hero__actions">
+            <a class="btn btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">Код на GitHub</a>
+            <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Обсудить похожий проект</a>
+          </div>
+        </div>
+
+        <div class="project-hero__media" data-reveal>
+          <picture>
+            <source srcset="{{ case.cover | replace('.webp', '.avif') }}" type="image/avif">
+            <source srcset="{{ case.cover }}" type="image/webp">
+            <img src="{{ case.cover_fallback }}" width="1200" height="750" loading="eager" fetchpriority="high" decoding="async" alt="{{ case.cover_alt }}">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= РЕЗУЛЬТАТ ======================= -->
+  <section class="section project-result">
+    <div class="container">
+      <div class="result-card" data-reveal>
+        <p class="eyebrow">Результат</p>
+        <p class="result-card__text">{{ case.result }}</p>
+        {% if case.metrics %}
+        <ul class="metrics">
+          {% for metric in case.metrics %}
+          <li class="metric">
+            <span class="metric__value">{{ metric.value }}</span>
+            <span class="metric__label">{{ metric.label }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ЗАДАЧА ======================= -->
+  <section class="section project-task">
+    <div class="container project-task__grid">
+      <h2 class="section__title" data-reveal>Описание задачи</h2>
+      <div class="project-task__text" data-reveal>
+        <p>{{ case.task }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ПРОЦЕСС ======================= -->
+  <section class="section project-process">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Как это было</p>
+        <h2 class="section__title">Процесс</h2>
+      </header>
+
+      <ol class="steps">
+        {% for step in case.process %}
+        <li class="step" data-reveal>
+          <span class="step__number">{{ loop.index }}</span>
+          <h3 class="step__title">{{ step.title }}</h3>
+          <p class="step__text">{{ step.text }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======================= ГАЛЕРЕЯ ======================= -->
+  {% if case.gallery %}
+  <section class="section project-gallery">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Интерфейс</p>
+        <h2 class="section__title">Галерея</h2>
+        <p class="section__lead">На мобильных устройствах галерея прокручивается свайпом.</p>
+      </header>
+
+      <div class="gallery" data-gallery data-reveal role="region" aria-label="Галерея скриншотов" tabindex="0">
+        {% for item in case.gallery %}
+        <figure class="gallery__item{% if item.wide %} gallery__item--wide{% endif %}">
+          <picture>
+            <source srcset="{{ item.src | replace('.webp', '.avif') }}" type="image/avif">
+            <source srcset="{{ item.src }}" type="image/webp">
+            <img src="{{ item.src | replace('.webp', '.png') }}" width="1200" height="750" loading="lazy" decoding="async" alt="{{ item.alt }}">
+          </picture>
+          {% if item.caption %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+
+      <div class="gallery__controls" data-gallery-controls hidden>
+        <button class="gallery__btn" type="button" data-gallery-prev aria-label="Предыдущий слайд">←</button>
+        <button class="gallery__btn" type="button" data-gallery-next aria-label="Следующий слайд">→</button>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ======================= ТЕХНИКА ======================= -->
+  <section class="section project-tech">
+    <div class="container project-tech__grid">
+      <div data-reveal>
+        <p class="eyebrow">Под капотом</p>
+        <h2 class="section__title">Технические характеристики</h2>
+        <ul class="tech-list">
+          {% for item in case.tech %}
+          <li class="tech-item">
+            <span class="tech-item__label">{{ item.label }}</span>
+            <span class="tech-item__value">{{ item.value }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="project-tech__aside" data-reveal>
+        <div class="stack-card">
+          <h3 class="stack-card__title">Стек проекта</h3>
+          <ul class="stack-card__items">
+            {% for item in case.stack %}
+            <li class="chip">{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a class="btn btn--primary btn--block" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">Открыть репозиторий на GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ДРУГИЕ КЕЙСЫ ======================= -->
+  {% if others %}
+  <section class="section project-others">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Ещё работы</p>
+        <h2 class="section__title">Другие кейсы</h2>
+      </header>
+      <ul class="cases__grid cases__grid--compact" data-reveal>
+        {% for other in others %}
+        <li class="case-card">
+          <a class="case-card__media" href="{{ url_for('main.project', slug=other.slug) }}" tabindex="-1" aria-hidden="true">
+            <picture>
+              <source srcset="{{ other.cover | replace('.webp', '.avif') }}" type="image/avif">
+              <source srcset="{{ other.cover }}" type="image/webp">
+              <img src="{{ other.cover_fallback }}" width="800" height="500" loading="lazy" decoding="async" alt="{{ other.cover_alt }}">
+            </picture>
+          </a>
+          <div class="case-card__body">
+            <p class="case-card__meta">
+              <span class="tag">{{ other.category }}</span>
+              <span class="case-card__year">{{ other.year }}</span>
+            </p>
+            <h3 class="case-card__title">
+              <a href="{{ url_for('main.project', slug=other.slug) }}">{{ other.title }}</a>
+            </h3>
+            <div class="case-card__actions">
+              <a class="btn btn--small btn--ghost" href="{{ url_for('main.project', slug=other.slug) }}">Посмотреть кейс</a>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+</article>
+
+{% endblock %}

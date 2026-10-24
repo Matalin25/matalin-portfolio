@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Страница не найдена — {{ site_name }}{% endblock %}
+{% block description %}Страница не найдена. Вернитесь на главную страницу портфолио.{% endblock %}
+
+{% block content %}
+<section class="notfound">
+  <div class="container notfound__inner">
+    <p class="notfound__code" aria-hidden="true">404</p>
+    <h1 class="notfound__title">Страница не найдена</h1>
+    <p class="notfound__text">
+      Возможно, ссылка устарела или в адресе опечатка. Зато можно посмотреть кейсы
+      или написать мне напрямую.
+    </p>
+    <div class="notfound__actions">
+      <a class="btn btn--primary" href="{{ url_for('main.index') }}">Вернуться на главную</a>
+      <a class="btn btn--ghost" href="{{ url_for('main.index') }}#cases">Смотреть кейсы</a>
+      <a class="btn btn--ghost" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Написать в Telegram</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

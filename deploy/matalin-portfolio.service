@@ -1,0 +1,44 @@
+[Unit]
+Description=Matalin Portfolio (Flask/gunicorn)
+After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/matalin-portfolio
+Environment="APP_ENV=production"
+Environment="PATH=/srv/matalin-portfolio/.venv/bin"
+EnvironmentFile=/srv/matalin-portfolio/.env
+ExecStart=/srv/matalin-portfolio/.venv/bin/gunicorn \
+    --workers 4 \
+    --threads 2 \
+    --timeout 30 \
+    --graceful-timeout 20 \
+    --bind 127.0.0.1:8000 \
+    --access-logfile - \
+    --error-logfile - \
+    --capture-output \
+    "app:create_app()"
+ExecReload=/bin/kill -s HUP $MAINPID
+UMask=0077
+Restart=always
+RestartSec=5
+
+# --- Изоляция -------------------------------------------------------------
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/matalin-portfolio/data /srv/matalin-portfolio/logs /srv/matalin-portfolio/backups
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

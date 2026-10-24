@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Вход в админ-панель{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <h1 class="admin-card__title">Вход в админ-панель</h1>
+  <p class="admin-card__hint">Введите пароль администратора. Он задаётся переменной окружения <code>ADMIN_PASSWORD</code>.</p>
+
+  {% if error %}
+  <p class="alert alert--error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  <form method="post" class="form" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="field">
+      <span class="field__label">Пароль</span>
+      <input class="field__input" type="password" name="password" required autocomplete="current-password" autofocus>
+    </label>
+    <button class="btn btn--primary btn--block" type="submit">Войти</button>
+  </form>
+
+  <p class="admin-card__back"><a href="{{ url_for('main.index') }}">← Вернуться на сайт</a></p>
+</div>
+{% endblock %}

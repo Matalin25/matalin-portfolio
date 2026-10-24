@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site_name }} — Frontend-разработчик и создатель Telegram-ассистентов{% endblock %}
+{% block description %}Frontend-разработчик и создатель Telegram-ассистентов. Разрабатываю быстрые интерфейсы на React и сложные Telegram-боты на Python для бизнеса и пользователей.{% endblock %}
+
+{% block head_extra %}
+{{ jsonld_block(person_schema) }}
+{{ jsonld_block(website_schema) }}
+{% endblock %}
+
+{% block content %}
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="hero">
+  <div class="container hero__grid">
+
+    <div class="hero__content" data-reveal>
+      <p class="eyebrow">{{ hero.eyebrow }}</p>
+      <h1 class="hero__title">{{ hero.title }}</h1>
+      <p class="hero__lead">{{ hero.lead }}</p>
+    </div>
+
+    <div class="hero__actions" data-reveal>
+      <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">
+        <span class="btn__icon" aria-hidden="true">✈</span>{{ hero.cta_primary }}
+      </a>
+      <a class="btn btn--ghost" href="mailto:{{ email }}">{{ hero.cta_secondary }}</a>
+    </div>
+
+    <div class="hero__visual" data-reveal aria-hidden="true">
+      <figure class="chat-mock">
+        <div class="chat-mock__head">
+          <span class="chat-mock__avatar">С</span>
+          <span class="chat-mock__name">{{ hero.visual.label }}</span>
+          <span class="chat-mock__dots">•••</span>
+        </div>
+        <div class="chat-mock__body">
+          <p class="chat-msg chat-msg--in">Пора встать. Напоминаю: чтение — 20 минут.</p>
+          <p class="chat-msg chat-msg--out">Отметил ✓</p>
+          <p class="chat-msg chat-msg--in">Отлично! Серия: <b>12 дней</b>.</p>
+          <div class="chat-week">
+            <span class="chat-week__day is-done">Пн</span>
+            <span class="chat-week__day is-done">Вт</span>
+            <span class="chat-week__day is-done">Ср</span>
+            <span class="chat-week__day is-done">Чт</span>
+            <span class="chat-week__day is-done">Пт</span>
+            <span class="chat-week__day">Сб</span>
+            <span class="chat-week__day is-done">Вс</span>
+          </div>
+        </div>
+      </figure>
+      <p class="hero__caption">{{ hero.visual.caption }}</p>
+    </div>
+
+    <ul class="hero__stats" data-reveal>
+      {% for stat in hero.stats %}
+      <li class="stat">
+        <span class="stat__value">{{ stat.value }}</span>
+        <span class="stat__label">{{ stat.label }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+  <a class="hero__scroll" href="#cases" aria-label="К блоку кейсов">
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+    <span class="hero__scroll-text">Кейсы</span>
+  </a>
+</section>
+
+<!-- ============================ CASES ============================ -->
+<section class="section cases" id="cases">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="eyebrow">Портфолио</p>
+      <h2 class="section__title">Избранные кейсы</h2>
+      <p class="section__lead">
+        {{ total_cases }} {{ plural_forms(cases) }} в сфере веб-интерфейсов и Telegram-ассистентов.
+        Каждый проект — с задачей, процессом и измеримым результатом.
+      </p>
+    </header>
+
+    <ul class="cases__grid" data-reveal>
+      {% for case in cases %}
+      <li class="case-card">
+        <a class="case-card__media" href="{{ url_for('main.project', slug=case.slug) }}" tabindex="-1" aria-hidden="true">
+          <picture>
+            <source srcset="{{ case.cover | replace('.webp', '.avif') }}" type="image/avif">
+            <source srcset="{{ case.cover }}" type="image/webp">
+            <img src="{{ case.cover_fallback }}" width="800" height="500" loading="lazy" decoding="async" alt="{{ case.cover_alt }}">
+          </picture>
+        </a>
+        <div class="case-card__body">
+          <p class="case-card__meta">
+            <span class="tag">{{ case.category }}</span>
+            <span class="case-card__year">{{ case.year }}</span>
+          </p>
+          <h3 class="case-card__title">
+            <a href="{{ url_for('main.project', slug=case.slug) }}">{{ case.title }}</a>
+          </h3>
+          <p class="case-card__result">{{ case.card_result }}</p>
+          <div class="case-card__actions">
+            <a class="btn btn--small btn--primary" href="{{ url_for('main.project', slug=case.slug) }}">Посмотреть кейс</a>
+            <a class="btn btn--small btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">Код на GitHub</a>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <p class="cases__note" data-reveal>
+      Часть работ закрыта договором о неразглашении и доступна по прямой ссылке.
+      Напишите в Telegram — пришлю материалы и детали реализации.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<section class="section about" id="about">
+  <div class="container about__grid">
+
+    <div class="about__lead" data-reveal>
+      <p class="eyebrow">{{ about.eyebrow }}</p>
+      <h2 class="section__title">{{ about.title }}</h2>
+      <p class="about__summary">{{ about.lead }}</p>
+      <a class="btn btn--ghost" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Обсудить задачу</a>
+    </div>
+
+    <div class="about__text" data-reveal>
+      {% for paragraph in about.paragraphs %}
+      <p>{{ paragraph }}</p>
+      {% endfor %}
+    </div>
+
+    <ul class="about__principles" data-reveal>
+      {% for principle in about.principles %}
+      <li class="principle">
+        <h3 class="principle__title">{{ principle.title }}</h3>
+        <p class="principle__text">{{ principle.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</section>
+
+<!-- ============================ STACK ============================ -->
+<section class="section stack" id="stack">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="eyebrow">Инструменты</p>
+      <h2 class="section__title">Стек</h2>
+      <p class="section__lead">Технологии, которые использую в продакшене: от Telegram Bot API и Python до React и инфраструктуры.</p>
+    </header>
+
+    <div class="stack__grid" data-reveal>
+      {% for group in about.stack %}
+      <div class="stack-card">
+        <h3 class="stack-card__title">{{ group['group'] }}</h3>
+        <ul class="stack-card__items">
+          {% for item in group['items'] %}
+          <li class="chip">{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACTS ============================ -->
+<section class="section contacts" id="contacts">
+  <div class="container contacts__grid">
+
+    <div class="contacts__info" data-reveal>
+      <p class="eyebrow">{{ contact.eyebrow }}</p>
+      <h2 class="section__title">{{ contact.title }}</h2>
+      <p class="section__lead">{{ contact.lead }}</p>
+
+      <ul class="contacts__points">
+        {% for point in contact.points %}
+        <li>
+          <h3 class="contacts__point-title">{{ point.title }}</h3>
+          <p class="contacts__point-text">{{ point.text }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="contacts__actions">
+        <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">{{ hero.cta_primary }}</a>
+        <a class="btn btn--ghost" href="mailto:{{ email }}">{{ hero.cta_secondary }}</a>
+      </div>
+
+      <ul class="contacts__links">
+        <li><a href="mailto:{{ email }}">{{ email }}</a></li>
+        <li><a href="tg://resolve?domain={{ telegram_username }}">Telegram {{ telegram_display }}</a></li>
+        <li><a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      </ul>
+    </div>
+
+    <div class="contacts__form-wrap" data-reveal>
+      <form class="form" id="contact-form" method="post" action="{{ url_for('main.contact_submit') }}" novalidate>
+        <h3 class="form__title">Опишите задачу</h3>
+        <p class="form__hint">Поля помечены <span aria-hidden="true">*</span> обязательны.</p>
+
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Как к вам обращаться <span aria-hidden="true">*</span></span>
+            <input class="field__input" type="text" name="name" required maxlength="60" autocomplete="name" placeholder="Иван Петров" data-validate="name">
+            <span class="field__error" data-error-for="name"></span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Telegram или email <span aria-hidden="true">*</span></span>
+            <input class="field__input" type="text" name="contact" required maxlength="120" autocomplete="email" placeholder="@username или name@mail.ru" data-validate="contact">
+            <span class="field__error" data-error-for="contact"></span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field__label">Сообщение <span aria-hidden="true">*</span></span>
+          <textarea class="field__input field__input--area" name="message" rows="5" required maxlength="2000" placeholder="Что нужно сделать, какие сроки и бюджет?" data-validate="message"></textarea>
+          <span class="field__error" data-error-for="message"></span>
+        </label>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="website">Не заполняйте это поле</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" name="consent" value="1" required data-validate="consent">
+          <span class="checkbox__box" aria-hidden="true"></span>
+          <span class="checkbox__text">Согласен на обработку персональных данных <span aria-hidden="true">*</span></span>
+        </label>
+        <span class="field__error" data-error-for="consent"></span>
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <button class="btn btn--primary btn--block" type="submit" data-submit>Отправить заявку</button>
+
+        <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

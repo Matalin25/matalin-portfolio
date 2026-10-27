@@ -449,9 +449,9 @@ CASES: list[Case] = [
             ),
         ],
         gallery=[
-            GalleryItem(src="/static/img/cases/metall-1.webp", alt="Главная страница сайта металлообрабатывающего цеха", caption="Главная: калькулятор, склад, оборудование", wide=True),
-            GalleryItem(src="/static/img/cases/metall-2.webp", alt="Онлайн-калькулятор стоимости металлообработки", caption="Калькулятор: расчёт за 60 секунд"),
-            GalleryItem(src="/static/img/cases/metall-3.webp", alt="Каталог готовых запчастей со склада", caption="Каталог запчастей: 250+ позиций в наличии"),
+            GalleryItem(src="/static/img/cases/metall-1.webp", alt="Онлайн-калькулятор стоимости металлообработки", caption="Калькулятор: расчёт стоимости за 60 секунд", wide=True),
+            GalleryItem(src="/static/img/cases/metall-2.webp", alt="Каталог готовых запчастей со склада", caption="Каталог запчастей: 250+ позиций в наличии"),
+            GalleryItem(src="/static/img/cases/metall-3.webp", alt="Оборудование цеха: лазер 2 кВт, листогиб 100 т, плазма", caption="Оборудование: лазер, пресс, плазма, сварка"),
         ],
         tech=[
             TechItem(label="Стек", value="HTML5, CSS3, JavaScript, Netlify"),

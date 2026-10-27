@@ -306,22 +306,26 @@ def build_covers():
         ),
     ))
 
-    # 2. Аналитика — дашборд
+    # 2. Парсинг бирж фриланса
     files.append((
-        "analytics",
-        lambda: scene_dashboard((800, 500), PALETTE["blue"], "Аналитика магазина", kind="bars"),
+        "otvet",
+        lambda: scene_page((800, 500), PALETTE["orange"], "parsing-birja.netlify.app", "Упаковка услуг: 5 digital-направлений"),
     ))
     files.append((
-        "analytics-1",
-        lambda: scene_dashboard((1200, 750), PALETTE["blue"], "Аналитика · выручка", kind="line"),
+        "otvet-1",
+        lambda: scene_page((1200, 750), PALETTE["orange"], "parsing-birja.netlify.app", "Главная: заказы и отклики"),
     ))
     files.append((
-        "analytics-2",
-        lambda: scene_dashboard((1200, 750), PALETTE["violet"], "Когортный анализ", kind="bars", kpis=2),
+        "otvet-2",
+        lambda: scene_page((1200, 750), PALETTE["blue"], "parsing-birja.netlify.app", "Карточка заказа", with_form=False),
     ))
     files.append((
-        "analytics-3",
-        lambda: scene_dashboard((1200, 750), PALETTE["green"], "Детализация заказа", kind="line", kpis=3),
+        "otvet-3",
+        lambda: scene_page((1200, 750), PALETTE["green"], "parsing-birja.netlify.app", "Трекер откликов", with_form=False),
+    ))
+    files.append((
+        "otvet-4",
+        lambda: scene_page((1200, 750), PALETTE["violet"], "parsing-birja.netlify.app", "Отклик на Kwork", with_form=True),
     ))
 
     # 3. Запись в студию

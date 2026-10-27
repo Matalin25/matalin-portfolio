@@ -287,63 +287,63 @@ CASES: list[Case] = [
         ],
     ),
     Case(
-        slug="analytics-dashboard",
-        title="Панель аналитики для интернет-магазина",
-        card_result="Отчёты за секунды вместо ночной выгрузки.",
+        slug="otvet-treker",
+        title="Парсинг бирж фриланса",
+        card_result="Отклики с Kwork и других бирж в одном окне.",
         result=(
-            "Владелец магазина видит выручку, средний чек и отток в одном экране и "
-            "принимает решения по продажам без помощи аналитика — отчётность готовится "
-            "за секунды, а не за ночь."
+            "Фрилансер видит все отклики и заказы с бирж в едином интерфейсе без "
+            "ручного мониторинга каждой площадки. Трекер уведомляет о новых ответах, "
+            "а упаковка услуг помогает презентовать 5 digital-направлений клиентам."
         ),
-        summary="Дашборд с метриками продаж, когортами и экспортом в PDF.",
+        summary="Инструмент для парсинга откликов и заказов на биржах фриланса (Kwork и др.) с трекингом и упаковкой услуг.",
         category="Веб-приложение",
         year="2024",
-        role="Frontend, дизайн-система",
-        duration="8 недель",
-        stack=["React 18", "TypeScript", "Vite", "Recharts", "REST API"],
-        cover="/static/img/cases/analytics.webp",
-        cover_fallback="/static/img/cases/analytics.png",
-        cover_alt="Дашборд аналитики с графиками выручки, среднего чека и конверсии",
-        github="https://github.com/matalin-dev/analytics-dashboard",
+        role="Frontend, парсинг, дизайн",
+        duration="6 недель",
+        stack=["Python", "BeautifulSoup", "Flask", "JavaScript", "Netlify"],
+        cover="/static/img/cases/otvet.webp",
+        cover_fallback="/static/img/cases/otvet.png",
+        cover_alt="Упаковка услуг: 5 digital-направлений",
+        github="https://parsing-otvet-zakaz-birja.netlify.app/",
         task=(
-            "Продажи интернет-магазина собирались в четырёх разных выгрузках, "
-            "которые собирались вручную раз в неделю. Требовался единый экран, "
-            "на котором руководитель видит состояние бизнеса и может сравнивать "
-            "периоды между собой."
+            "Фрилансер тратил часы на ручной мониторинг бирж: заходил на каждую площадку, "
+            "проверял новые отклики и заказы. Нужен был инструмент, который собирает всё "
+            "в одном месте и уведомляет о новых ответах."
         ),
         process=[
             ProcessStep(
-                title="Аудит данных",
-                text="Согласовал источники, единые определения метрик и правила расчёта когорт, чтобы цифры не расходились между отчётами.",
+                title="Анализ бирж",
+                text="Изучил структуру Kwork и других площадок: как формируются отклики, какие данные доступны через парсинг.",
             ),
             ProcessStep(
-                title="Дизайн-система",
-                text="Собрал набор компонентов: карточки, графики, таблицы, фильтры. Тёмная тема и единые отступы — чтобы новые экраны собирались за часы.",
+                title="Парсер",
+                text="Написал парсер на Python + BeautifulSoup, который собирает отклики и заказы с бирж и сохраняет в базу.",
             ),
             ProcessStep(
-                title="Сборка интерфейса",
-                text="Реализовал экраны на React + TypeScript, добавил виртуализацию таблиц, кеширование запросов и skeleton-состояния.",
+                title="Трекер",
+                text="Сделал веб-интерфейс для просмотра откликов: фильтрация по статусу, сортировка, уведомления о новых ответах.",
             ),
             ProcessStep(
-                title="Производительность",
-                text="Оптимизировал бандл до 96 КБ gzip, перевёл графики на ленивую загрузку и настроил кеш API — экран рисуется меньше чем за секунду.",
+                title="Упаковка услуг",
+                text="Добавил конструктор упаковки услуг: фрилансер выбирает 5 digital-направлений и получает готовую презентацию для клиентов.",
             ),
         ],
         gallery=[
-            GalleryItem(src="/static/img/cases/analytics-1.webp", alt="Главный экран дашборда с графиком выручки", caption="Динамика выручки и среднего чека", wide=True),
-            GalleryItem(src="/static/img/cases/analytics-2.webp", alt="Экран когортного анализа", caption="Когортный анализ удержания"),
-            GalleryItem(src="/static/img/cases/analytics-3.webp", alt="Экран детализации заказа", caption="Детализация заказа и источника трафика"),
+            GalleryItem(src="/static/img/cases/otvet-1.webp", alt="Главная страница трекера", caption="Главная: список заказов и откликов", wide=True),
+            GalleryItem(src="/static/img/cases/otvet-2.webp", alt="Карточка заказа", caption="Карточка заказа: детали и статус"),
+            GalleryItem(src="/static/img/cases/otvet-3.webp", alt="Трекер откликов", caption="Трекер: фильтрация и уведомления"),
+            GalleryItem(src="/static/img/cases/otvet-4.webp", alt="Отклик на Kwork", caption="Отклик на бирже Kwork"),
         ],
         tech=[
-            TechItem(label="Стек", value="React 18, TypeScript, Vite, Recharts"),
-            TechItem(label="Роль", value="Frontend, дизайн-система, интеграция с API"),
-            TechItem(label="Срок", value="8 недель"),
-            TechItem(label="Производительность", value="96 КБ gzip, lazy-load графиков, skeleton-состояния"),
-            TechItem(label="Доступность", value="Контраст 7:1, полная работа с клавиатуры, aria-атрибуты"),
+            TechItem(label="Стек", value="Python, BeautifulSoup, Flask, JavaScript"),
+            TechItem(label="Роль", value="Frontend, парсинг, дизайн"),
+            TechItem(label="Срок", value="6 недель"),
+            TechItem(label="Парсинг", value="Kwork и другие биржи фриланса"),
+            TechItem(label="Упаковка", value="Конструктор услуг: 5 digital-направлений"),
         ],
         metrics=[
-            TechItem(label="Время до отрисовки", value="0,9 с"),
-            TechItem(label="Отчёт вместо выгрузки", value="4 → 1"),
+            TechItem(label="Бирж", value="3+"),
+            TechItem(label="Экономия времени", value="−80%"),
         ],
     ),
     Case(

@@ -383,6 +383,24 @@ def build_covers():
         lambda: scene_page((1200, 750), PALETTE["orange"], "matalin-portfolio.ru/parts", "Каталог запчастей: 250+ позиций в наличии", with_form=False),
     ))
 
+    # 4.5. Калькулятор сборных грузов
+    files.append((
+        "cargo",
+        lambda: scene_page((800, 500), PALETTE["blue"], "Калькулятор сборных грузов", "Расчёт за 30 секунд"),
+    ))
+    files.append((
+        "cargo-1",
+        lambda: scene_page((1200, 750), PALETTE["blue"], "Калькулятор", "Маршрут и параметры груза", with_form=False),
+    ))
+    files.append((
+        "cargo-2",
+        lambda: scene_page((1200, 750), PALETTE["green"], "Калькулятор", "Тип груза и допуслуги", with_form=False),
+    ))
+    files.append((
+        "cargo-3",
+        lambda: scene_page((1200, 750), PALETTE["orange"], "Калькулятор", "Оформление заявки", with_form=True),
+    ))
+
     # 5. Онлайн-школа
     files.append((
         "edu",

@@ -449,7 +449,8 @@ CASES: list[Case] = [
             ),
         ],
         gallery=[
-            GalleryItem(src="/static/img/cases/metall-1.webp", alt="Онлайн-калькулятор стоимости металлообработки", caption="Калькулятор: расчёт стоимости за 60 секунд", wide=True),
+            GalleryItem(src="/static/img/cases/metall-4.webp", alt="Главная страница сайта металлообрабатывающего цеха", caption="Главная: УТП, калькулятор и склад металла", wide=True),
+            GalleryItem(src="/static/img/cases/metall-1.webp", alt="Онлайн-калькулятор стоимости металлообработки", caption="Калькулятор: расчёт стоимости за 60 секунд"),
             GalleryItem(src="/static/img/cases/metall-2.webp", alt="Каталог готовых запчастей со склада", caption="Каталог запчастей: 250+ позиций в наличии"),
             GalleryItem(src="/static/img/cases/metall-3.webp", alt="Оборудование цеха: лазер 2 кВт, листогиб 100 т, плазма", caption="Оборудование: лазер, пресс, плазма, сварка"),
         ],

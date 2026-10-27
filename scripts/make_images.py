@@ -361,40 +361,40 @@ def build_covers():
         ),
     ))
 
-    # 4. Сайт юридической компании
+    # 4. Сайт металлообрабатывающего цеха
     files.append((
-        "law",
-        lambda: scene_page((800, 500), PALETTE["violet"], "matalin-portfolio.ru", "Юридическая помощь"),
+        "metall",
+        lambda: scene_page((800, 500), PALETTE["blue"], "matalin-portfolio.ru", "Металлообработка"),
     ))
     files.append((
-        "law-1",
-        lambda: scene_page((1200, 750), PALETTE["violet"], "matalin-portfolio.ru", "Юридическая помощь"),
+        "metall-1",
+        lambda: scene_page((1200, 750), PALETTE["blue"], "matalin-portfolio.ru", "Главная: калькулятор, склад, оборудование"),
     ))
     files.append((
-        "law-2",
-        lambda: scene_page((1200, 750), PALETTE["blue"], "matalin-portfolio.ru/services", "Взыскание долга", with_form=False),
+        "metall-2",
+        lambda: scene_page((1200, 750), PALETTE["green"], "matalin-portfolio.ru/calculator", "Калькулятор: расчёт за 60 секунд", with_form=True),
     ))
     files.append((
-        "law-3",
-        lambda: scene_page((1200, 750), PALETTE["green"], "matalin-portfolio.ru/consultation", "Консультация", with_form=True),
+        "metall-3",
+        lambda: scene_page((1200, 750), PALETTE["orange"], "matalin-portfolio.ru/parts", "Каталог запчастей: 250+ позиций в наличии", with_form=False),
     ))
 
-    # 5. CRM
+    # 5. Онлайн-школа
     files.append((
-        "crm",
-        lambda: scene_dashboard((800, 500), PALETTE["pink"], "CRM · воронка", kind="bars"),
+        "edu",
+        lambda: scene_dashboard((800, 500), PALETTE["green"], "Образовательная платформа", kind="bars"),
     ))
     files.append((
-        "crm-1",
-        lambda: scene_dashboard((1200, 750), PALETTE["pink"], "Воронка сделок", kind="bars"),
+        "edu-1",
+        lambda: scene_dashboard((1200, 750), PALETTE["green"], "Кабинет родителя · прогресс", kind="line"),
     ))
     files.append((
-        "crm-2",
-        lambda: scene_dashboard((1200, 750), PALETTE["violet"], "Карточка сделки", kind="line", kpis=2),
+        "edu-2",
+        lambda: scene_dashboard((1200, 750), PALETTE["blue"], "Интерактивная доска", kind="bars", kpis=3),
     ))
     files.append((
-        "crm-3",
-        lambda: scene_dashboard((1200, 750), PALETTE["green"], "Отчёт по команде", kind="bars", kpis=4, sidebar=False),
+        "edu-3",
+        lambda: scene_dashboard((1200, 750), PALETTE["violet"], "Автопроверка ДЗ · 5000 заданий ФИПИ", kind="line", kpis=2, sidebar=False),
     ))
 
     # 6. Скрытый кейс под NDA

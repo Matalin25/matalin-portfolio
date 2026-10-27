@@ -511,6 +511,7 @@ CASES: list[Case] = [
             GalleryItem(src="/static/img/cases/edu-1.webp", alt="Главная страница онлайн-школы", caption="Главная: оффер недели и форма заявки", wide=True),
             GalleryItem(src="/static/img/cases/edu-2.webp", alt="Кабинет родителя с прогрессом", caption="Кабинет родителя: ДЗ сделано, прогресс +5%"),
             GalleryItem(src="/static/img/cases/edu-3.webp", alt="Интерактивная доска и тренажёры", caption="Платформа: интерактивная доска и автопроверка"),
+            GalleryItem(src="/static/img/cases/edu-4.webp", alt="Личный кабинет родителя", caption="Личный кабинет: успеваемость, посещаемость, домашние задания"),
         ],
         tech=[
             TechItem(label="Стек", value="React, TypeScript, Node.js, PostgreSQL, WebSocket"),

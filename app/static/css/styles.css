@@ -1337,8 +1337,8 @@ textarea {
 
 .gallery__item img {
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: contain;
+  height: auto;
+  display: block;
   background: var(--surface);
 }
 

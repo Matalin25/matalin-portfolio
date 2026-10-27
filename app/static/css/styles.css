@@ -1338,7 +1338,8 @@ textarea {
 .gallery__item img {
   width: 100%;
   aspect-ratio: 16 / 10;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--surface);
 }
 
 .gallery__item figcaption {

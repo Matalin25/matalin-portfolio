@@ -101,6 +101,7 @@ def create_app(config: object | None = None) -> Flask:
         telegram_username=app.config["TELEGRAM_USERNAME"],
         telegram_display=app.config["TELEGRAM_DISPLAY"],
         email=app.config["EMAIL"],
+        max_display=app.config["MAX_DISPLAY"],
         github_url=app.config["GITHUB_URL"],
     )
 
@@ -114,6 +115,7 @@ def create_app(config: object | None = None) -> Flask:
             "telegram_username": app.config["TELEGRAM_USERNAME"],
             "telegram_display": app.config["TELEGRAM_DISPLAY"],
             "email": app.config["EMAIL"],
+            "max_display": app.config["MAX_DISPLAY"],
             "github_url": app.config["GITHUB_URL"],
             "base_url": app.config["BASE_URL"],
         }

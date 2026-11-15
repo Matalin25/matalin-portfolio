@@ -68,10 +68,11 @@ class Config:
     BASE_URL = os.environ.get("BASE_URL", f"https://{SITE_DOMAIN}").rstrip("/")
     COMPANY_NAME = "Matalin Portfolio"
 
-    # --- Контакты (TODO: замените на реальные) --------------------------
-    TELEGRAM_USERNAME = os.environ.get("TELEGRAM_USERNAME", "matalin_dev")
-    TELEGRAM_DISPLAY = os.environ.get("TELEGRAM_DISPLAY", "@matalin_dev")
-    EMAIL = os.environ.get("EMAIL", "hello@matalin-portfolio.ru")
+    # --- Контакты -------------------------------------------------------
+    TELEGRAM_USERNAME = os.environ.get("TELEGRAM_USERNAME", "MatalinAA")
+    TELEGRAM_DISPLAY = os.environ.get("TELEGRAM_DISPLAY", "@MatalinAA")
+    EMAIL = os.environ.get("EMAIL", "matalin@inbox.ru")
+    MAX_DISPLAY = os.environ.get("MAX_DISPLAY", "Александр Маталин")
     GITHUB_URL = os.environ.get("GITHUB_URL", "https://github.com/matalin-dev")
 
     # --- Безопасность ---------------------------------------------------

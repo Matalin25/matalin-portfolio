@@ -73,6 +73,7 @@ class Config:
     TELEGRAM_DISPLAY = os.environ.get("TELEGRAM_DISPLAY", "@MatalinAA")
     EMAIL = os.environ.get("EMAIL", "matalin@inbox.ru")
     MAX_DISPLAY = os.environ.get("MAX_DISPLAY", "Александр Маталин")
+    MAX_URL = os.environ.get("MAX_URL", "https://max.ru/u/f9LHodD0cOLAXdPJQzB51m04r8fGiPdvP0qEe_rbEMJ_yo_QVBH09f42HSg")
     GITHUB_URL = os.environ.get("GITHUB_URL", "https://github.com/matalin-dev")
 
     # --- Безопасность ---------------------------------------------------

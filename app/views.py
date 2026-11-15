@@ -75,6 +75,7 @@ def index():
         hero=hero,
         about=content.ABOUT,
         contact=content.CONTACT,
+        services=content.SERVICES,
         nav_links=content.NAV_LINKS,
         cases=cases,
         total_cases=len(_public_cases()),

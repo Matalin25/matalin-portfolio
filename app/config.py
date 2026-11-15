@@ -63,7 +63,7 @@ class Config:
     """Базовая конфигурация."""
 
     # --- Сайт -----------------------------------------------------------
-    SITE_NAME = "Маталин"  # TODO: замените на Имя Фамилию владельца
+    SITE_NAME = "Александр Маталин"
     SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "matalin-portfolio.ru")
     BASE_URL = os.environ.get("BASE_URL", f"https://{SITE_DOMAIN}").rstrip("/")
     COMPANY_NAME = "Matalin Portfolio"
@@ -74,7 +74,7 @@ class Config:
     EMAIL = os.environ.get("EMAIL", "matalin@inbox.ru")
     MAX_DISPLAY = os.environ.get("MAX_DISPLAY", "Александр Маталин")
     MAX_URL = os.environ.get("MAX_URL", "https://max.ru/u/f9LHodD0cOLAXdPJQzB51m04r8fGiPdvP0qEe_rbEMJ_yo_QVBH09f42HSg")
-    GITHUB_URL = os.environ.get("GITHUB_URL", "https://github.com/matalin-dev")
+    GITHUB_URL = os.environ.get("GITHUB_URL", "https://github.com/Matalin25")
 
     # --- Безопасность ---------------------------------------------------
     SECRET_KEY = _secret_key()

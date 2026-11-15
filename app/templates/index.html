@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}{{ site_name }} — Frontend-разработчик и создатель Telegram-ассистентов{% endblock %}
-{% block description %}Frontend-разработчик и создатель Telegram-ассистентов. Разрабатываю быстрые интерфейсы на React и сложные Telegram-боты на Python для бизнеса и пользователей.{% endblock %}
+{% block title %}Александр Маталин — фронтенд, чат-боты и сайты под ключ{% endblock %}
+{% block description %}Александр Маталин. Фронтенд-разработка, Telegram-боты и сайты под ключ. Примеры работ с каталогами, формами записи, калькуляторами и интеграциями.{% endblock %}
 
 {% block head_extra %}
 {{ jsonld_block(person_schema) }}
@@ -21,10 +21,8 @@
     </div>
 
     <div class="hero__actions" data-reveal>
-      <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">
-        <span class="btn__icon" aria-hidden="true">✈</span>{{ hero.cta_primary }}
-      </a>
-      <a class="btn btn--ghost" href="mailto:{{ email }}">{{ hero.cta_secondary }}</a>
+      <a class="btn btn--primary" href="#contacts">{{ hero.cta_primary }}</a>
+      <a class="btn btn--ghost" href="#cases">{{ hero.cta_secondary }}</a>
     </div>
 
     <div class="hero__visual" data-reveal aria-hidden="true">
@@ -52,15 +50,6 @@
       <p class="hero__caption">{{ hero.visual.caption }}</p>
     </div>
 
-    <ul class="hero__stats" data-reveal>
-      {% for stat in hero.stats %}
-      <li class="stat">
-        <span class="stat__value">{{ stat.value }}</span>
-        <span class="stat__label">{{ stat.label }}</span>
-      </li>
-      {% endfor %}
-    </ul>
-
   </div>
   <a class="hero__scroll" href="#cases" aria-label="К блоку кейсов">
     <span class="hero__scroll-line" aria-hidden="true"></span>
@@ -68,50 +57,48 @@
   </a>
 </section>
 
+<section class="section" id="services">
+  <div class="container">
+    <header class="section__head"><h2 class="section__title">Услуги</h2></header>
+    <ul class="stack__grid">
+      {% for service in services %}
+      <li class="stack-card">
+        <h3 class="stack-card__title">{{ service.title }}</h3>
+        <p>{{ service.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
 <!-- ============================ CASES ============================ -->
 <section class="section cases" id="cases">
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="eyebrow">Портфолио</p>
-      <h2 class="section__title">Избранные кейсы</h2>
+      <h2 class="section__title">Кейсы разработки</h2>
       <p class="section__lead">
-        {{ total_cases }} {{ plural_forms(cases) }}: сайты, приложения, дизайн, презентации, тексты и аудио.
-        Задачи, выполненная работа и материалы проектов.
+        Сайты, веб-приложения и Telegram-боты. В каждом кейсе — задача, выполненная работа и материалы проекта.
       </p>
     </header>
 
-    <ul class="cases__grid">
-      {% for case in cases %}
-      <li class="case-card">
-        <a class="case-card__media" href="{{ url_for('main.project', slug=case.slug) }}" tabindex="-1" aria-hidden="true">
-          <picture>
-            <source srcset="{{ case.cover | replace('.webp', '.avif') }}" type="image/avif">
-            <source srcset="{{ case.cover }}" type="image/webp">
-            <img src="{{ case.cover_fallback }}" width="800" height="500" loading="lazy" decoding="async" alt="{{ case.cover_alt }}">
-          </picture>
-        </a>
-        <div class="case-card__body">
-          <p class="case-card__meta">
-            <span class="tag">{{ case.category }}</span>
-            <span class="case-card__year">{{ case.year }}</span>
-          </p>
-          <h3 class="case-card__title">
-            <a href="{{ url_for('main.project', slug=case.slug) }}">{{ case.title }}</a>
-          </h3>
-          <p class="case-card__result">{{ case.card_result }}</p>
-          <div class="case-card__actions">
-            <a class="btn btn--small btn--primary" href="{{ url_for('main.project', slug=case.slug) }}">Посмотреть кейс</a>
-            <a class="btn btn--small btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">{{ case.external_label }}</a>
-          </div>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
+    {% with grid_cases=cases | selectattr('development') | list %}
+    {% include 'partials/case_grid.html' %}
+    {% endwith %}
 
     <p class="cases__note" data-reveal>
       Часть работ закрыта договором о неразглашении и доступна по прямой ссылке.
       Напишите в Telegram — пришлю материалы и детали реализации.
     </p>
+  </div>
+</section>
+
+<section class="section cases" id="other-works">
+  <div class="container">
+    <header class="section__head"><h2 class="section__title">Дизайн, тексты и другие работы</h2></header>
+    {% with grid_cases=cases | rejectattr('development') | list %}
+    {% include 'partials/case_grid.html' %}
+    {% endwith %}
   </div>
 </section>
 
@@ -187,8 +174,8 @@
       </ul>
 
       <div class="contacts__actions">
-        <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">{{ hero.cta_primary }}</a>
-        <a class="btn btn--ghost" href="mailto:{{ email }}">{{ hero.cta_secondary }}</a>
+        <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Написать в Telegram</a>
+        <a class="btn btn--ghost" href="mailto:{{ email }}">Написать на почту</a>
       </div>
 
       <ul class="contacts__links">

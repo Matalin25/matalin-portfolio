@@ -22,7 +22,6 @@
           <li><a href="{{ url_for('main.index') }}">Главная</a></li>
           <li><a href="{{ url_for('main.index') }}#cases">Кейсы</a></li>
           <li><span aria-current="page">{{ case.title }}</span></li>
-          <li><a href="{{ case.github }}" target="_blank" rel="noopener noreferrer">{{ case.external_label }}</a></li>
         </ol>
       </nav>
 
@@ -34,12 +33,14 @@
 
           <ul class="project-hero__facts">
             <li><span class="fact__label">Роль</span><span class="fact__value">{{ case.role }}</span></li>
-            <li><span class="fact__label">Срок</span><span class="fact__value">{{ case.duration }}</span></li>
+            {% if case.duration %}<li><span class="fact__label">Срок</span><span class="fact__value">{{ case.duration }}</span></li>{% endif %}
             <li><span class="fact__label">Стек</span><span class="fact__value">{{ case.stack | join(', ') }}</span></li>
           </ul>
 
           <div class="project-hero__actions">
-            <a class="btn btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">{{ case.external_label }}</a>
+            {% for link in case.links %}
+            <a class="btn btn--ghost" href="{{ link.url }}"{% if link.url.startswith('https://') %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+            {% endfor %}
             <a class="btn btn--primary" href="tg://resolve?domain={{ telegram_username }}" rel="noopener">Обсудить похожий проект</a>
           </div>
         </div>
@@ -107,12 +108,12 @@
 
   <!-- ======================= ГАЛЕРЕЯ ======================= -->
   {% if case.gallery %}
-  <section class="section project-gallery">
+  <section class="section project-gallery" id="project-gallery">
     <div class="container">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Интерфейс</p>
+        <p class="eyebrow">Материалы проекта</p>
         <h2 class="section__title">Галерея</h2>
-        <p class="section__lead">На мобильных устройствах галерея прокручивается свайпом.</p>
+        <p class="section__lead">{{ case.gallery | length }} {{ 'изображение' if case.gallery | length == 1 else ('изображения' if case.gallery | length in [2, 3, 4] else 'изображений') }}. На мобильных устройствах галерея прокручивается свайпом.</p>
       </header>
 
       <div class="gallery" data-gallery data-reveal role="region" aria-label="Галерея скриншотов" tabindex="0">
@@ -161,7 +162,9 @@
             {% endfor %}
           </ul>
         </div>
-        <a class="btn btn--primary btn--block" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">{{ case.external_label }}</a>
+        {% for link in case.links %}
+        <a class="btn btn--primary btn--block" href="{{ link.url }}"{% if link.url.startswith('https://') %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+        {% endfor %}
       </div>
     </div>
   </section>

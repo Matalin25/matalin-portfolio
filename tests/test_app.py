@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import json
 import shutil
 import sys
 import tempfile
@@ -55,7 +56,8 @@ class BaseTestCase(unittest.TestCase):
 class PageTests(BaseTestCase):
     def test_imported_fl_cases(self):
         from app import content
-        imported = [c for c in content.CASES if c.github.startswith("https://www.fl.ru/")]
+        imported_slugs = {entry["slug"] for entry in json.loads(Path(content.__file__).with_name("fl_cases.json").read_text(encoding="utf-8"))}
+        imported = [c for c in content.CASES if c.slug in imported_slugs]
         self.assertEqual(len(imported), 15)
         self.assertEqual(len({c.slug for c in content.CASES}), len(content.CASES))
         home = self.client.get("/").get_data(as_text=True)
@@ -68,8 +70,8 @@ class PageTests(BaseTestCase):
                 response = self.client.get(f"/projects/{case.slug}")
                 self.assertEqual(response.status_code, 200)
                 html = response.get_data(as_text=True)
-                self.assertIn("Работа на FL.ru", html)
-                self.assertIn(case.github, html)
+                for link in case.links:
+                    self.assertIn(link["url"], html)
                 for image in case.gallery:
                     for suffix in (".png", ".webp", ".avif"):
                         filename = image.src.replace(".webp", suffix)
@@ -80,10 +82,36 @@ class PageTests(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         html = response.get_data(as_text=True)
         self.assertIn("<h1", html)
-        self.assertIn("Frontend-разработчик", html)
-        self.assertIn("Трекер привычек", html)
+        self.assertIn("Фронтенд-разработка, чат-боты и сайты под ключ", html)
+        self.assertIn("HabitFlow", html)
         self.assertIn('id="cases"', html)
         self.assertIn('id="contacts"', html)
+
+    def test_approved_portfolio_copy(self):
+        from app import content
+        public = [case for case in content.CASES if not case.hidden]
+        self.assertEqual(len(public), 21)
+        self.assertEqual([case.slug for case in public[:6]], [
+            "avtopark", "fire-door-calculator", "saveliy-habit-tracker",
+            "edu-platform", "garage-leskova", "metall-site",
+        ])
+        home = self.client.get("/").get_data(as_text=True)
+        self.assertIn('id="services"', home)
+        self.assertIn("Кейсы разработки", home)
+        self.assertIn("Дизайн, тексты и другие работы", home)
+        self.assertNotIn('class="hero__stats"', home)
+        self.assertIn('href="#contacts">Обсудить проект', home)
+        self.assertIn('href="#cases">Посмотреть кейсы', home)
+        for case in public:
+            self.assertFalse(case.metrics)
+            self.assertFalse(case.duration)
+            html = self.client.get(f"/projects/{case.slug}").get_data(as_text=True)
+            self.assertIn(case.task, html)
+            self.assertIn(case.result, html)
+            self.assertNotIn("matalin-dev", html)
+        cosmetics = content.get_case("cosmetologist-visuals")
+        self.assertEqual(len(cosmetics.gallery), 5)
+        self.assertNotIn("fl-8113175-6", self.client.get("/projects/cosmetologist-visuals").get_data(as_text=True))
 
     def test_hierarchy_of_headings(self):
         html = self.client.get("/").get_data(as_text=True)

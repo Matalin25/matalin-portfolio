@@ -14,27 +14,26 @@ from typing import Any
 # ---------------------------------------------------------------------------
 
 HERO = {
-    "eyebrow": "Frontend-разработчик · Telegram Bot API",
-    "title": "{name}. Frontend-разработчик и создатель Telegram-ассистентов.",
+    "eyebrow": "Александр Маталин",
+    "title": "Фронтенд-разработка, чат-боты и сайты под ключ",
     "lead": (
-        "Превращаю идеи в работающие цифровые продукты. Специализируюсь на разработке "
-        "быстрых интерфейсов и сложных Telegram-ботов (как трекер привычек «Савелий»), "
-        "которые решают конкретные задачи бизнеса и пользователей. Работаю с Python, "
-        "React и Telegram Bot API. Создаю чистый код, который легко поддерживать и "
-        "масштабировать."
+        "Делаю адаптивные интерфейсы для сайтов, каталогов и веб-приложений. "
+        "Разрабатываю Telegram-ботов для записи, заявок и напоминаний. "
+        "Беру сайт в работу от структуры и вёрстки до подключения форм и публикации."
     ),
-    "cta_primary": "Написать в Telegram",
-    "cta_secondary": "Написать на почту",
+    "cta_primary": "Обсудить проект",
+    "cta_secondary": "Посмотреть кейсы",
     "visual": {
         "label": "Трекер привычек «Савелий»",
-        "caption": "Бот-напоминалка: привязка к дням недели, времени и серии дней.",
+        "caption": "«Савелий» напоминает о привычках по расписанию и показывает прогресс.",
     },
-    "stats": [
-        {"value": "6+", "label": "запущенных проектов"},
-        {"value": "3", "label": "года в коммерческой разработке"},
-        {"value": "100%", "label": "проектов сдано в срок"},
-    ],
 }
+
+SERVICES = [
+    {"title": "Фронтенд-разработка", "text": "Верстаю адаптивные страницы, разрабатываю фильтры, каталоги, формы и калькуляторы. Дорабатываю интерфейсы действующих сайтов и подключаю их к API."},
+    {"title": "Чат-боты", "text": "Разрабатываю Telegram-ботов для записи, сбора заявок, ответов на частые вопросы и напоминаний. При необходимости подключаю таблицу или API."},
+    {"title": "Сайты под ключ", "text": "Создаю лендинги и сайты услуг. Продумываю структуру, собираю страницы, подключаю заявки, подготавливаю метатеги и публикую сайт."},
+]
 
 ABOUT = {
     "eyebrow": "Обо мне",
@@ -54,7 +53,7 @@ ABOUT = {
         (
             "Дальше — прототип, который я показываю раньше, чем «красивые» экраны. "
             "Это быстро отсекает лишние гипотезы и позволяет собрать рабочую версию "
-            "за несколько дней. Код пишу так, чтобы его мог прочитать другой разработчик: "
+            "до полноценной разработки. Код пишу так, чтобы его мог прочитать другой разработчик: "
             "типизация, тесты на критичную логику, понятная структура модулей и "
             "документация по запуску."
         ),
@@ -71,7 +70,7 @@ ABOUT = {
             "text": "Стек выбирается под задачу, а не наоборот. Один стек на все проекты — это долг, а не эффективность.",
         },
         {
-            "title": "Рабочий прототип за дни",
+            "title": "Проверка идеи на прототипе",
             "text": "Первую версию пользователь может потрогать руками, пока обсуждаются детали дизайна.",
         },
         {
@@ -159,6 +158,8 @@ class Case:
     gallery: list[GalleryItem] = field(default_factory=list)
     tech: list[TechItem] = field(default_factory=list)
     metrics: list[TechItem] = field(default_factory=list)
+    links: list[dict[str, str]] = field(default_factory=list)
+    development: bool = True
 
     @property
     def external_label(self) -> str:
@@ -191,6 +192,8 @@ class Case:
             "gallery": [item.__dict__ for item in self.gallery],
             "tech": [item.__dict__ for item in self.tech],
             "metrics": [item.__dict__ for item in self.metrics],
+            "links": self.links,
+            "development": self.development,
         }
 
 
@@ -671,6 +674,44 @@ def _fl_cases() -> list[Case]:
 
 
 CASES.extend(_fl_cases())
+
+
+def _apply_reviewed_copy() -> None:
+    """Apply the owner's approved copy without touching existing screenshots/slugs."""
+    entries = json.loads(Path(__file__).with_name("portfolio_copy.json").read_text(encoding="utf-8"))
+    by_slug = {case.slug: case for case in CASES}
+    confirmed_tools = {
+        "saveliy-habit-tracker": ["Python", "Flask", "SQLite", "Telegram"],
+        "edu-platform": ["HTML", "CSS", "JavaScript", "Python", "Google Apps Script"],
+        "metall-site": ["HTML", "CSS", "JavaScript"],
+        "cargo-calculator": ["HTML", "CSS", "JavaScript", "PWA"],
+        "otvet-treker": ["Поиск и фильтры", "Excel", "CSV"],
+        "studio-booking-bot": ["Telegram", "Прототипирование"],
+    }
+    ordered = []
+    for entry in entries:
+        case = by_slug[entry["slug"]]
+        case.title = entry["title"]
+        case.card_result = entry["card_result"]
+        case.summary = entry["card_result"]
+        case.task = entry["task"]
+        case.process = [ProcessStep(title="Что сделал", text=entry["work"])]
+        case.result = entry["result"]
+        case.links = entry["links"]
+        case.github = case.links[0]["url"]
+        case.development = entry["development"]
+        case.duration = ""
+        case.metrics = []
+        case.stack = confirmed_tools.get(case.slug, case.stack)
+        case.role = "Прототипирование" if case.slug == "studio-booking-bot" else case.category
+        case.tech = [TechItem(label="Инструменты и форматы", value=", ".join(case.stack))]
+        if case.slug == "cosmetologist-visuals":
+            case.gallery = case.gallery[:5]
+        ordered.append(case)
+    CASES[:] = ordered + [case for case in CASES if case.slug not in {e["slug"] for e in entries}]
+
+
+_apply_reviewed_copy()
 CASES_BY_SLUG: dict[str, Case] = {case.slug: case for case in CASES}
 
 

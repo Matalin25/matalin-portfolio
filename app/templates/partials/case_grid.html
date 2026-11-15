@@ -1,0 +1,24 @@
+<ul class="cases__grid">
+  {% for case in grid_cases %}
+  <li class="case-card">
+    <a class="case-card__media" href="{{ url_for('main.project', slug=case.slug) }}" tabindex="-1" aria-hidden="true">
+      <picture>
+        <source srcset="{{ case.cover | replace('.webp', '.avif') }}" type="image/avif">
+        <source srcset="{{ case.cover }}" type="image/webp">
+        <img src="{{ case.cover_fallback }}" width="800" height="500" loading="lazy" decoding="async" alt="{{ case.cover_alt }}">
+      </picture>
+    </a>
+    <div class="case-card__body">
+      <p class="case-card__meta"><span class="tag">{{ case.category }}</span><span class="case-card__year">{{ case.year }}</span></p>
+      <h3 class="case-card__title"><a href="{{ url_for('main.project', slug=case.slug) }}">{{ case.title }}</a></h3>
+      <p class="case-card__result">{{ case.card_result }}</p>
+      <div class="case-card__actions">
+        <a class="btn btn--small btn--primary" href="{{ url_for('main.project', slug=case.slug) }}">Посмотреть кейс</a>
+        {% for link in case.links %}
+        <a class="btn btn--small btn--ghost" href="{{ link.url }}"{% if link.url.startswith('https://') %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

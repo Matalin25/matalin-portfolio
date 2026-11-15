@@ -19,7 +19,7 @@ def person_schema() -> str:
         "@context": "https://schema.org",
         "@type": "Person",
         "name": cfg["SITE_NAME"],
-        "jobTitle": "Frontend-разработчик, создатель Telegram-ассистентов",
+        "jobTitle": "Фронтенд-разработчик, разработчик чат-ботов и сайтов",
         "url": f"{_base()}/",
         "email": f"mailto:{cfg['EMAIL']}",
         "sameAs": [cfg["GITHUB_URL"], f"https://t.me/{cfg['TELEGRAM_USERNAME']}"],
@@ -58,6 +58,8 @@ def case_schema(case: content.Case) -> str:
         "dateCreated": case.year,
         "keywords": ", ".join(case.stack),
         "image": f"{_base()}{case.cover}",
-        "codeRepository": case.github,
     }
+    repositories = [link["url"] for link in case.links if link["url"].startswith("https://github.com/")]
+    if repositories:
+        data["codeRepository"] = repositories[0]
     return json.dumps(data, ensure_ascii=False)

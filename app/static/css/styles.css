@@ -786,10 +786,7 @@ textarea {
   color: var(--muted);
   font-size: 0.9375rem;
   line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  display: block;
 }
 
 .case-card__actions {
@@ -2057,10 +2054,6 @@ code {
   .cases__grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
-  }
-
-  .case-card__result {
-    -webkit-line-clamp: 1;
   }
 
   .cases__grid--compact {

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{{ site_name }} — Frontend-разработчик и Telegram-ассистенты{% endblock %}</title>
-  <meta name="description" content="{% block description %}Frontend-разработчик и создатель Telegram-ассистентов. Разработка быстрых интерфейсов на React и сложных Telegram-ботов на Python.{% endblock %}">
+  <title>{% block title %}{{ site_name }} — фронтенд, чат-боты и сайты под ключ{% endblock %}</title>
+  <meta name="description" content="{% block description %}Александр Маталин. Фронтенд-разработка, Telegram-боты и сайты под ключ. Примеры работ с каталогами, формами записи, калькуляторами и интеграциями.{% endblock %}">
   <meta name="author" content="{{ site_name }}">
   <meta name="theme-color" content="#0b0f16">
   <meta name="color-scheme" content="dark">
@@ -24,7 +24,7 @@
   <meta name="twitter:image" content="{{ base_url }}/static/img/og-cover.png">
   <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon.svg') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css', v='portfolio-copy-1') }}">
   <script src="{{ url_for('static', filename='js/head.js') }}"></script>
   {% block head_extra %}{% endblock %}
 </head>
@@ -62,7 +62,7 @@
     <div class="container site-footer__inner">
       <div class="site-footer__col">
         <p class="site-footer__name">{{ site_name }}</p>
-        <p class="site-footer__role">Frontend-разработчик · Telegram-ассистенты</p>
+        <p class="site-footer__role">Фронтенд-разработка · Чат-боты · Сайты под ключ</p>
       </div>
       <nav class="site-footer__col" aria-label="Навигация в подвале">
         <ul class="footer-links">

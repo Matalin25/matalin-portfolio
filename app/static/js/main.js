@@ -29,7 +29,8 @@
         el.classList.add('is-visible');
         observer.unobserve(el);
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    // Tall sections may never reach a percentage-based visibility threshold.
+    }, { rootMargin: '0px', threshold: 0 });
 
     items.forEach(function (el) { observer.observe(el); });
   }

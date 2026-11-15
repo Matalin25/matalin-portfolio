@@ -59,6 +59,7 @@ class PageTests(BaseTestCase):
         self.assertEqual(len(imported), 15)
         self.assertEqual(len({c.slug for c in content.CASES}), len(content.CASES))
         home = self.client.get("/").get_data(as_text=True)
+        self.assertNotRegex(home, r'<ul[^>]*class="cases__grid"[^>]*data-reveal')
         sitemap = self.client.get("/sitemap.xml").get_data(as_text=True)
         for case in imported:
             with self.subTest(slug=case.slug):

@@ -80,7 +80,7 @@
       </p>
     </header>
 
-    <ul class="cases__grid" data-reveal>
+    <ul class="cases__grid">
       {% for case in cases %}
       <li class="case-card">
         <a class="case-card__media" href="{{ url_for('main.project', slug=case.slug) }}" tabindex="-1" aria-hidden="true">

@@ -53,6 +53,27 @@ class BaseTestCase(unittest.TestCase):
 
 
 class PageTests(BaseTestCase):
+    def test_imported_fl_cases(self):
+        from app import content
+        imported = [c for c in content.CASES if c.github.startswith("https://www.fl.ru/")]
+        self.assertEqual(len(imported), 15)
+        self.assertEqual(len({c.slug for c in content.CASES}), len(content.CASES))
+        home = self.client.get("/").get_data(as_text=True)
+        sitemap = self.client.get("/sitemap.xml").get_data(as_text=True)
+        for case in imported:
+            with self.subTest(slug=case.slug):
+                self.assertIn(case.slug, home)
+                self.assertIn(case.slug, sitemap)
+                response = self.client.get(f"/projects/{case.slug}")
+                self.assertEqual(response.status_code, 200)
+                html = response.get_data(as_text=True)
+                self.assertIn("Работа на FL.ru", html)
+                self.assertIn(case.github, html)
+                for image in case.gallery:
+                    for suffix in (".png", ".webp", ".avif"):
+                        filename = image.src.replace(".webp", suffix)
+                        self.assertTrue((Path(self.app.static_folder) / filename.removeprefix("/static/")).is_file())
+
     def test_homepage(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)

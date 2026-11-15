@@ -75,8 +75,8 @@
       <p class="eyebrow">Портфолио</p>
       <h2 class="section__title">Избранные кейсы</h2>
       <p class="section__lead">
-        {{ total_cases }} {{ plural_forms(cases) }} в сфере веб-интерфейсов и Telegram-ассистентов.
-        Каждый проект — с задачей, процессом и измеримым результатом.
+        {{ total_cases }} {{ plural_forms(cases) }}: сайты, приложения, дизайн, презентации, тексты и аудио.
+        Задачи, выполненная работа и материалы проектов.
       </p>
     </header>
 
@@ -101,7 +101,7 @@
           <p class="case-card__result">{{ case.card_result }}</p>
           <div class="case-card__actions">
             <a class="btn btn--small btn--primary" href="{{ url_for('main.project', slug=case.slug) }}">Посмотреть кейс</a>
-            <a class="btn btn--small btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">Код на GitHub</a>
+            <a class="btn btn--small btn--ghost" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">{{ case.external_label }}</a>
           </div>
         </div>
       </li>

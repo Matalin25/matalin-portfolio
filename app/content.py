@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import json
+from pathlib import Path
 from typing import Any
 
 # ---------------------------------------------------------------------------
@@ -157,6 +159,14 @@ class Case:
     gallery: list[GalleryItem] = field(default_factory=list)
     tech: list[TechItem] = field(default_factory=list)
     metrics: list[TechItem] = field(default_factory=list)
+
+    @property
+    def external_label(self) -> str:
+        if self.github.startswith("https://www.fl.ru/"):
+            return "Работа на FL.ru"
+        if self.github.startswith("https://github.com/"):
+            return "Код на GitHub"
+        return "Открыть проект"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -633,6 +643,34 @@ CASES: list[Case] = [
     ),
 ]
 
+def _fl_cases() -> list[Case]:
+    """Reviewed, non-duplicate works with original FL.ru illustrations."""
+    entries = json.loads(Path(__file__).with_name("fl_cases.json").read_text(encoding="utf-8"))
+    cases = []
+    for entry in entries:
+        paragraphs = entry["description"].split("\n\n")
+        cover = entry["images"][0]
+        cases.append(Case(
+            slug=entry["slug"], title=entry["title"],
+            card_result=entry["summary"], result=entry["summary"],
+            summary=paragraphs[0], category=entry["category"], year="2026",
+            role=entry["category"], duration="Не указан", stack=entry["stack"],
+            cover=cover, cover_fallback=cover.replace(".webp", ".png"),
+            cover_alt=entry["title"], github=entry["source_url"],
+            task=paragraphs[0],
+            process=[ProcessStep(title=f"О проекте · {index}", text=text)
+                     for index, text in enumerate(paragraphs[1:], 1)],
+            gallery=[GalleryItem(src=src, alt=f"{entry['title']} — материал {index}",
+                                 caption=f"Материал {index} из портфолио FL.ru", wide=index == 1)
+                     for index, src in enumerate(entry["images"], 1)],
+            tech=[TechItem(label="Направление", value=entry["category"]),
+                  TechItem(label="Инструменты и форматы", value=", ".join(entry["stack"])),
+                  TechItem(label="Источник", value="Портфолио Александра Маталина на FL.ru")],
+        ))
+    return cases
+
+
+CASES.extend(_fl_cases())
 CASES_BY_SLUG: dict[str, Case] = {case.slug: case for case in CASES}
 
 
